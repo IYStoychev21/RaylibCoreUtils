@@ -8,15 +8,23 @@ public:
    void OnAttach() override
    {
       m_FrameBuffer.reset(new Core::FrameBuffer);
-      m_FrameBuffer->Init(1280, 720);
+      m_FrameBuffer->Init(m_ViewPortSize.x, m_ViewPortSize.y);
    }
 
    void OnImGuiRender() override
    {
       ImGui::Begin("ViewPort");
 
-      rlImGuiImageRenderTexture(m_FrameBuffer->GetTexture().get());
+      if(m_ViewPortSize.x != ImGui::GetContentRegionAvail().x || m_ViewPortSize.y != ImGui::GetContentRegionAvail().y)
+      {
+         m_ViewPortSize.x = ImGui::GetContentRegionAvail().x;
+         m_ViewPortSize.y = ImGui::GetContentRegionAvail().y;
+         
+         m_FrameBuffer->Init(m_ViewPortSize.x, m_ViewPortSize.y) ;
+      }
 
+      rlImGuiImageRenderTexture(m_FrameBuffer->GetTexture().get());
+      
       ImGui::End();
    }
 
@@ -30,7 +38,8 @@ public:
    }
 
 private:
-   std::shared_ptr<Core::FrameBuffer> m_FrameBuffer;
+   std::shared_ptr<Core::FrameBuffer> m_FrameBuffer = nullptr;
+   glm::vec2 m_ViewPortSize = {GetScreenWidth(), GetScreenHeight() };
 };
 
 class SandBoxApplication : public Core::Application
