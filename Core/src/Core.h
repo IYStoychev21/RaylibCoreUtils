@@ -10,3 +10,5 @@
 #include "Scene/Scene.h"
 
 #include "Windows/FilesystemWindow.h"
+
+#include "Script/NativeScript.h"

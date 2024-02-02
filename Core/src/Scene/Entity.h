@@ -2,6 +2,11 @@
 #include "pch.h"
 #include "Scene.h"
 
+namespace Core
+{
+	struct NativeScriptComponent;
+}
+
 namespace Core {
 	/// @brief An entity is a container of components	
 	class Entity
@@ -21,6 +26,7 @@ namespace Core {
 		{
 			m_Scene->m_Registry.emplace<T>(m_Entity, args...);
 		}
+		
 
 		/// @brief Get a component from the entity
 		/// @tparam T The type of the component
