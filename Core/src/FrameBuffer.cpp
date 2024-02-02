@@ -8,7 +8,7 @@ namespace Core {
 		m_Height = height;
 
 		m_Texture.reset(new RenderTexture2D);
-		*m_Texture = LoadRenderTexture(width, height);
+		*m_Texture = LoadRenderTexture((int32_t)width, (int32_t)height);
 	}
 
 	void FrameBuffer::Bind()

@@ -38,10 +38,6 @@ namespace Core {
 		void PushLayer(std::shared_ptr<Layer> layer) { m_LayerStack.push_back(layer); }
 
 	private:
-		/// @brief Update the application
-		void ShouldWindowClose();
-
-	private:
 		inline static Application* s_Instance;
 		std::shared_ptr<Window> m_Window;
 

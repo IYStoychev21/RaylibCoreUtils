@@ -37,6 +37,8 @@ namespace Core {
 		/// @return The size of the window as a glm::vec2
 		glm::vec2 GetSize() const { return {m_Width, m_Height}; }
 
+		bool IsWindowOpen() const { return WindowShouldClose(); }
+
 	private:
 		uint32_t m_Width;
 		uint32_t m_Height;

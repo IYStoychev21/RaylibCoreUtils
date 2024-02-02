@@ -32,9 +32,34 @@ namespace Core {
 
 		/// @brief Get a native entitiy
 		/// @return The native entity
-		const entt::entity GetNativeEntity() const
+		entt::entity GetNativeEntity() const
 		{
 			return m_Entity;
+		}
+
+		/// @brief Destroy an entity
+		void Destroy()
+		{
+			m_Scene->m_Registry.destroy(m_Entity);
+		}
+		
+		/// @brief Get a component from an entity
+		/// @tparam T The type of the component
+		/// @return The component 
+		template<typename T>
+		T& GetComponent()
+		{
+			return m_Scene->m_Registry.get<T>(m_Entity);
+		}
+
+		
+		/// @brief Check if an entity has a component
+		/// @tparam T The type of the component
+		/// @return True if the entity has the component, false otherwise
+		template<typename T>
+		bool HasComponent()
+		{
+			return m_Scene->m_Registry.try_get<T>(m_Entity) != nullptr;
 		}
 
 	private:

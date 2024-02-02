@@ -33,8 +33,11 @@ namespace Core {
 
 		while (m_IsRunning)
 		{
-			ShouldWindowClose();
-
+			if(m_Window->IsWindowOpen())
+			{
+				m_IsRunning = false;
+			}
+			
 #ifdef IMGUI_DISABLED
 			BeginDrawing();
 #endif
@@ -72,13 +75,5 @@ namespace Core {
 #endif
 		
 		CloseWindow();
-	}
-
-	void Application::ShouldWindowClose()
-	{
-		if (WindowShouldClose())
-		{
-			m_IsRunning = false;
-		}
 	}
 }

@@ -7,5 +7,6 @@ namespace Core {
 	{
 		m_Scene = scene;
 		m_Entity = m_Scene->m_Registry.create();
+		m_Scene->m_Entities.push_back(std::make_shared<Entity>(*this));
 	}
 }

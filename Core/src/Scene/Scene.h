@@ -2,7 +2,12 @@
 #include "pch.h"
 #include <entt.hpp>
 
+#include "Entity.h"
+#include "Entity.h"
+
 namespace Core {
+	class Entity;
+	
 	/// @brief A scene is a container of entities and components
 	class Scene
 	{
@@ -18,48 +23,17 @@ namespace Core {
 		template<typename T>
 		auto GetEntities()
 		{
-			return m_Registry.view<T>();
-		}
+			std::vector<std::shared_ptr<Entity>> entitesWithComponent;
+			
+			for (auto& entity : m_Entities)
+			{
+				if (m_Registry.try_get<T>(entity->GetNativeEntity()))
+				{
+					entitesWithComponent.push_back(entity);
+				}
+			}
 
-		/// @brief Check if an entity has a component
-		/// @tparam T The type of the component
-		/// @param entity The entity to check
-		/// @return True if the entity has the component, false otherwise
-		template<typename T>
-		bool HasComponent(entt::entity entity)
-		{
-			return m_Registry.try_get<T>(entity) != nullptr;
-		}
-
-		/// @brief Get a component from an entity
-		/// @tparam T The type of the component
-		/// @param entity The entity to get the component from
-		/// @return The component 
-		template<typename T>
-		T& GetComponent(entt::entity entity)
-		{
-			return m_Registry.get<T>(entity);
-		}
-
-		/// @brief Get the selected entity
-		/// @return The selected entity
-		entt::entity GetSelectedEntity()
-		{
-			return m_SelectedEntity;
-		}
-
-		/// @brief Set the selected entity
-		/// @param entity The entity to select
-		void SetSelectedEntity(entt::entity entity)
-		{
-			m_SelectedEntity = entity;
-		}
-
-		/// @brief Destroy an entity
-		/// @param entity The entity to destroy
-		void Destroy(entt::entity entity)
-		{
-			m_Registry.destroy(entity);
+			return entitesWithComponent;
 		}
 
 		/// @brief Get the name of the scene
@@ -72,7 +46,7 @@ namespace Core {
 	private:
 		std::string m_SceneName;
 		entt::registry m_Registry;
-		entt::entity m_SelectedEntity = entt::null;
+		std::vector<std::shared_ptr<Entity>> m_Entities;
 
 		friend class Entity;
 	};
