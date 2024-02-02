@@ -4,6 +4,13 @@
 #include "Script/NativeScript.h"
 
 namespace Core {
+	enum class ShapeType
+	{
+		None = 0,
+		Rectangle,
+		Circle,
+	};
+	
 	/// @brief Tag component for entities
 	struct TagComponent
 	{
@@ -20,13 +27,15 @@ namespace Core {
 	{
 		glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
 		float Rotation = 0.0f;
-		float Scale = 1.0f;
+		glm::vec3 Scale = {1.0f, 1.0f, 1.0f};
+		ShapeType Shape = ShapeType::None;
 
-		TransformComponent(glm::vec3 position, float scale, float rotation)
+		TransformComponent(glm::vec3 position, glm::vec3 scale, float rotation, ShapeType shape = ShapeType::None)
 		{
 			Position = position;
 			Scale = scale;
 			Rotation = rotation;
+			Shape = shape;
 		}
 	};
 
