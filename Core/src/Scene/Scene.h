@@ -1,9 +1,7 @@
 #pragma once
 #include "pch.h"
 #include <entt.hpp>
-
-#include "Entity.h"
-#include "Entity.h"
+#include <box2d/box2d.h>
 
 namespace Core {
 	class Entity;
@@ -43,10 +41,19 @@ namespace Core {
 		/// @param name The name of the scene
 		void SetName(std::string name) { m_SceneName = name; }
 
+		void InitPhysicsWorld(float gravityX, float gravityY)
+		{
+			m_PhysicsWorld.reset(new b2World(b2Vec2(gravityX, gravityY)));
+		}
+
+		std::shared_ptr<b2World> GetPhysicsWorld() { return m_PhysicsWorld; }
+
 	private:
 		std::string m_SceneName;
 		entt::registry m_Registry;
 		std::vector<std::shared_ptr<Entity>> m_Entities;
+		
+		std::shared_ptr<b2World> m_PhysicsWorld;
 
 		friend class Entity;
 	};

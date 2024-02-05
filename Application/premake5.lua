@@ -22,6 +22,7 @@ project "Application"
         "../vendor/rlImGui",
         "../vendor/entt",
         "../vendor/yml-cpp/include",
+        "../vendor/box2d/include",
     }
 
     libdirs {
@@ -34,6 +35,7 @@ project "Application"
         "Core",
         "raylibdll",
         "ImGui",
+        "Box2D",
     }
 
     filter "configurations:Debug"

@@ -8,3 +8,6 @@
 [submodule "vendor/yml-cpp"]
 	path = vendor/yml-cpp
 	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "vendor/box2d"]
+	path = vendor/box2d
+	url = https://github.com/erincatto/box2d.git

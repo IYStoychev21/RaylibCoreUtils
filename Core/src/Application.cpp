@@ -24,6 +24,7 @@ namespace Core {
 #ifndef IMGUI_DISABLED
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 #endif
 	
 		for(auto layer : m_LayerStack)

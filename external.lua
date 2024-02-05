@@ -74,3 +74,32 @@ project "YAML-CPP"
         runtime "Release"
         optimize "On"
 
+
+project "Box2D"
+    kind "StaticLib"
+    language "C++"
+    cppdialect "C++20"
+    staticruntime "on"
+    systemversion "latest"
+    location "vendor/box2d"
+
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files {
+        "vendor/box2d/src/**.h",
+        "vendor/box2d/src/**.cpp",
+        "vendor/box2d/include/**.h"
+    }
+
+    includedirs {
+        "vendor/box2d/include"
+    }
+
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "On"
+
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "On"

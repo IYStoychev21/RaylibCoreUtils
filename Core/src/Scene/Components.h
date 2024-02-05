@@ -2,6 +2,7 @@
 #include "pch.h"
 #include <glm/glm.hpp>
 #include "Script/NativeScript.h"
+#include <box2d/box2d.h>
 
 namespace Core {
 	enum class ShapeType
@@ -28,14 +29,12 @@ namespace Core {
 		glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
 		float Rotation = 0.0f;
 		glm::vec3 Scale = {1.0f, 1.0f, 1.0f};
-		ShapeType Shape = ShapeType::None;
 
-		TransformComponent(glm::vec3 position, glm::vec3 scale, float rotation, ShapeType shape = ShapeType::None)
+		TransformComponent(glm::vec3 position, glm::vec3 scale, float rotation)
 		{
 			Position = position;
 			Scale = scale;
 			Rotation = rotation;
-			Shape = shape;
 		}
 	};
 
@@ -56,7 +55,35 @@ namespace Core {
 
 		ColorComponent(glm::vec4 color)
 		{
-			Color = color;
+			Color.r = round(color.r * 255);
+			Color.g = round(color.g * 255);
+			Color.b = round(color.b * 255);
+			Color.a = round(color.a * 255);
+		}
+	};
+
+	struct Box2DColliderComponent
+	{
+		glm::vec2 Size = { 1.0f, 1.0f };
+		glm::vec2 Offset = { 0.0f, 0.0f };
+
+		float Density = 1.0f;
+		float Friction = 0.5f;
+
+		Box2DColliderComponent() = default;
+	};
+
+	struct RidgetBody2DComponent
+	{
+		b2BodyType Type = b2_staticBody;
+		bool FixedRotation = false;
+
+		b2Body* Body = nullptr;
+
+		RidgetBody2DComponent(b2BodyType type, bool fixedRotation)
+		{
+			Type = type;
+			FixedRotation = fixedRotation;
 		}
 	};
 }

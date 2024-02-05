@@ -20,7 +20,8 @@ project "Core"
         "../vendor/glm",
         "../vendor/rlImGui",
         "../vendor/entt",
-        "../vendor/yml-cpp/include"
+        "../vendor/yml-cpp/include",
+        "../vendor/box2d/include",
     }
 
     pchheader "pch.h"
@@ -34,6 +35,7 @@ project "Core"
         "raylibdll",
         "ImGui",
         "YAML-CPP",
+        "Box2D"
     }
 
     filter "configurations:Debug"
