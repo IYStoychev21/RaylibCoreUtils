@@ -41,13 +41,10 @@ namespace Core {
 		/// @param name The name of the scene
 		void SetName(std::string name) { m_SceneName = name; }
 
-		void InitPhysicsWorld(float gravityX, float gravityY)
-		{
-			m_PhysicsWorld.reset(new b2World(b2Vec2(gravityX, gravityY)));
-		}
-
+		void InitPhysicsWorld(float gravityX, float gravityY);
 		std::shared_ptr<b2World> GetPhysicsWorld() { return m_PhysicsWorld; }
 
+		void PhysicsUpdate();
 	private:
 		std::string m_SceneName;
 		entt::registry m_Registry;
