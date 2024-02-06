@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Application.h"
 
+#include "imgui_impl_raylib.h"
+
 namespace Core {
 	Application::Application()
 	{
@@ -15,18 +17,20 @@ namespace Core {
 		m_Window->Init();
 
 #ifndef IMGUI_DISABLED
-		rlImGuiSetup(true);
+		ImGui::CreateContext();
+		
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+		ImGui::StyleColorsDark();
+
+		ImGui_ImplRaylib_Init();
 #endif
 	}
 
 	void Application::Run()
 	{
-#ifndef IMGUI_DISABLED
-		ImGuiIO& io = ImGui::GetIO(); (void)io;
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-#endif
-	
 		for(auto layer : m_LayerStack)
 		{ 
 			layer->OnAttach();
@@ -42,16 +46,22 @@ namespace Core {
 #ifdef IMGUI_DISABLED
 			BeginDrawing();
 #endif
-
+			
 			for(auto layer : m_LayerStack)
 			{ 
 				layer->OnUpdate();
 			}
+			
+#ifdef IMGUI_DISABLED
+			EndDrawing();
+#endif
 
 #ifndef IMGUI_DISABLED
-			BeginDrawing();
+			ImGui_ImplRaylib_ProcessEvents();
 
-			rlImGuiBegin();
+			ImGui_ImplRaylib_NewFrame();
+			ImGui::NewFrame();
+#endif
 
 			ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
@@ -60,10 +70,13 @@ namespace Core {
 				layer->OnImGuiRender();
 			}
 
-			rlImGuiEnd();
-#endif
+#ifndef IMGUI_DISABLED
+			ImGui::Render();
 
+			BeginDrawing();
+			ImGui_ImplRaylib_RenderDrawData(ImGui::GetDrawData());
 			EndDrawing();
+#endif
 		}
 
 		for(auto layer : m_LayerStack)
@@ -72,7 +85,8 @@ namespace Core {
 		}
 		
 #ifndef IMGUI_DISABLED
-		rlImGuiShutdown();
+		ImGui_ImplRaylib_Shutdown();
+		ImGui::DestroyContext();
 #endif
 		
 		CloseWindow();

@@ -48,6 +48,9 @@ public:
 
    void OnImGuiRender() override
    {
+      ImGuiStyle& style = ImGui::GetStyle();
+      style.WindowPadding = ImVec2(0, 0);
+      
       ImGui::Begin("ViewPort");
 
       if(m_ViewPortSize.x != ImGui::GetContentRegionAvail().x || m_ViewPortSize.y != ImGui::GetContentRegionAvail().y)
