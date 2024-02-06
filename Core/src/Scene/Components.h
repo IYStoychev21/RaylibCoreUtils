@@ -1,17 +1,12 @@
 #pragma once
 #include "pch.h"
+
+#include <raylib.h>
 #include <glm/glm.hpp>
 #include "Script/NativeScript.h"
 #include <box2d/box2d.h>
 
 namespace Core {
-	enum class ShapeType
-	{
-		None = 0,
-		Rectangle,
-		Circle,
-	};
-	
 	/// @brief Tag component for entities
 	struct TagComponent
 	{
@@ -84,6 +79,16 @@ namespace Core {
 		{
 			Type = type;
 			FixedRotation = fixedRotation;
+		}
+	};
+
+	struct SpriteComponent
+	{
+		std::shared_ptr<Texture2D> Texture = nullptr;
+
+		SpriteComponent(std::shared_ptr<Texture2D> texture)
+		{
+			Texture = texture;
 		}
 	};
 }

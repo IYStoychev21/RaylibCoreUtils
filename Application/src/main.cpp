@@ -22,9 +22,12 @@ public:
       entityOne.AddComponent<Core::Box2DColliderComponent>();
       entityOne.AddComponent<Core::RidgetBody2DComponent>(b2_dynamicBody, true);
 
-       Core::Entity entityThree(m_Scene);
+      Core::Entity entityThree(m_Scene);
+
+      std::shared_ptr<Texture2D> texture = std::make_shared<Texture2D>(LoadTexture("assets/rider-icon.png"));
+      
       entityThree.AddComponent<Core::TransformComponent>(glm::vec3(820, 0, 0.0f), glm::vec3(80.0f, 80.0f, 0.0f), 0.0f);
-      entityThree.AddComponent<Core::ColorComponent>(glm::vec4(0.3f, 0.8f, 0.3f, 1.0f));
+      entityThree.AddComponent<Core::SpriteComponent>(texture);
       entityThree.AddComponent<Core::Box2DColliderComponent>();
       entityThree.AddComponent<Core::RidgetBody2DComponent>(b2_dynamicBody, true);
 
@@ -77,9 +80,20 @@ public:
       for (auto& entity : m_Scene->GetEntities<Core::TransformComponent>())
       {
          Core::TransformComponent& transform = entity->GetComponent<Core::TransformComponent>();
-         Core::ColorComponent& color = entity->GetComponent<Core::ColorComponent>();
-      
-         DrawRectanglePro(Rectangle({transform.Position.x, transform.Position.y, transform.Scale.x, transform.Scale.y}), Vector2({0, 0}), transform.Rotation, Color(color.Color.r, color.Color.g, color.Color.b, color.Color.a));
+
+         if(entity->HasComponent<Core::ColorComponent>())
+         {
+            Core::ColorComponent& color = entity->GetComponent<Core::ColorComponent>();
+         
+            DrawRectanglePro(Rectangle({transform.Position.x, transform.Position.y, transform.Scale.x, transform.Scale.y}), Vector2({0, 0}), transform.Rotation, Color(color.Color.r, color.Color.g, color.Color.b, color.Color.a));
+         }
+
+         if(entity->HasComponent<Core::SpriteComponent>())
+         {
+            Core::SpriteComponent& sprite = entity->GetComponent<Core::SpriteComponent>();
+            
+            DrawTexturePro(*sprite.Texture.get(), Rectangle({0.0f, 0.0f, (float)sprite.Texture->width, (float)sprite.Texture->height}), Rectangle({transform.Position.x, transform.Position.y, transform.Scale.x, transform.Scale.y}), Vector2({0, 0}), transform.Rotation, WHITE);
+         }
       }
 
       m_FrameBuffer->UnBind();
